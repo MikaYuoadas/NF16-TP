@@ -1,15 +1,17 @@
 #include <string.h>
 #include <stdio.h>
-#include <windows.h>
+#include <stdlib.h>
+//#include <windows.h>
 
 #include "tp3.h"
 
+/*********************************************************************/
 
 task * cree_tache(char caract[MAX_NOM+1], int duree)
 {
 	task * pt = NULL;
 
-	if (strcmp(caract, "") == 0 or duree <= 0)
+	if (strcmp(caract, "") == 0 || duree <= 0)
 		return NULL;
 	pt = malloc(sizeof(task));
 	if (pt == NULL)
@@ -17,36 +19,52 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 	strcpy(pt->ID, caract);
 	pt->duree = duree;
 	pt->psuivant = NULL;
+	
 	return pt;
 }
+
+/*********************************************************************/
 
 task * cree_liste(task *tache)
 {
 	task * pt = NULL;
 	
 	/* Création de la sentinelle */
-	pt = cree_tache("null", -1);
-	if (pt == NULL)
-		return NULL;
-	pt->psuivant = tache;
-	tache->psuivant = pt;
+	pt = cree_tache("null", '0');
+	if (tache != NULL) {
+		pt->psuivant = tache;
+		tache->psuivant = pt;
+	}
+	else
+		pt->psuivant = pt;
+
 	return pt;
 }
+
+/*********************************************************************/
 
 void affiche_liste(task *list_task)
 {
 	task * pt = NULL;
-	pt = list_task->psuivant;
-	printf("\n");
-	if (list_task == NULL)
-		print("Pointeur NULL.\n");
-	else if (pt == list_task)
-		printf("Liste vide.\n");
-	while(pt != list_task) {
-		printf("id : %s\t duree : %d\n", pt->ID, pt->duree);
-		pt = pt->psuivant;
+
+	pt = list_task;
+	if (pt == NULL)
+		printf("Pointeur NULL.\n");
+	else if (strcmp(list_task->ID, "null") == 0) {
+		pt = list_task->psuivant;
+		if (pt == list_task)
+			printf("Liste vide.\n");
+		else {
+			printf("Liste de taches:\n");
+			while(pt != list_task) {
+				printf("tache : %s\t duree : %d\n", pt->ID, pt->duree);
+				pt = pt->psuivant;
+			}
+		}
 	}
 }
+
+/*********************************************************************/
 
 int ajoute_tache(task *list_task, task *ptache)
 {
@@ -68,6 +86,8 @@ int ajoute_tache(task *list_task, task *ptache)
 	return 1;
 }
 
+/*********************************************************************/
+
 int search_ID(task * list_task, char * ID)
 {
 	int i = 0;
@@ -75,7 +95,7 @@ int search_ID(task * list_task, char * ID)
 	task * pt = NULL;
 	pt = list_task;
 
-	/* On parcourt la liste jusqu'à retourner au début
+	/* On parcourt la liste jusqu'à retourner à la sentinelle
 	   ou jusqu'à trouver la tache recherchée. */
 	while(pt->psuivant != list_task && !found) {
 		i++;
@@ -90,15 +110,16 @@ int search_ID(task * list_task, char * ID)
 		return -1;
 }
 
+/*********************************************************************/
+
 task * annule_tache(task *list_task, char caract[MAX_NOM+1])
 {
 	task * pt1 = NULL;
 	task * pt2 = NULL;
 	int pos, i;
-
+	
 	if (list_task == NULL)
-		return NULL; //TODO message d'erreur
-
+		return NULL;
 	pt1 = list_task;
 	pt2 = list_task->psuivant;
 	pos = search_ID(list_task, caract);
@@ -113,6 +134,8 @@ task * annule_tache(task *list_task, char caract[MAX_NOM+1])
 	}
 	return list_task;
 }
+
+/*********************************************************************/
 
 task * libere_liste(task *list_task)
 {
@@ -136,22 +159,26 @@ task * libere_liste(task *list_task)
 	return list_task;
 }
 
+/*********************************************************************/
+
 task * execute_tache_FIFO(task *list_task)
 {
 	task * pt = NULL;
 
 	pt = list_task->psuivant;
-	if (pt == list_task)
-		return list_task; // message d'erreur
+	if (pt == list_task) 
+		return list_task;
 
-	printf("exécution de la tâche  %s (%d)\n", pt->ID, pt->duree);
+	printf("Execution FIFO de la tache %s (%d)", pt->ID, pt->duree);
 	sleep(1);
 
 	list_task->psuivant = pt->psuivant;
 	free(pt);
-
+	printf("\n");
 	return list_task;
 }
+
+/*********************************************************************/
 
 task * execute_tache_LIFO(task *list_task)
 {
@@ -160,21 +187,24 @@ task * execute_tache_LIFO(task *list_task)
 
 	pre = pt = list_task->psuivant;
 	if (pt == list_task)
-		return list_task; // message d'erreur
+		return list_task;
 
+	/* Recherche du dernier élément à dépiler */
 	while (pt->psuivant != list_task) {
 		pre = pt;
 		pt = pt->psuivant;
 	}
 
-	printf("exécution de la tâche  %s (%d)\n", pt->ID, pt->duree);
+	printf("exécution LIFO de la tâche  %s (%d)", pt->ID, pt->duree);
 	sleep(1);
 
 	pre->psuivant = list_task;
 	free(pt);
-
+	printf("\n");
 	return list_task;
 }
+
+/*********************************************************************/
 
 task * insere_tache(task *list_task, task *ptache)
 {
@@ -182,12 +212,14 @@ task * insere_tache(task *list_task, task *ptache)
 	task * pt2 = NULL;
 
 	if (list_task == NULL || ptache == NULL)
-		return NULL;
+		return list_task;
 
 	pt1 = list_task;
 	pt2 = list_task->psuivant;
-
-	while (pt2->duree < ptache->duree && pt2 != list_task) {
+	/* Recherche de la place de la tâche à insérer en fonction de la durée
+	 * des éléments de la liste.
+	 */
+	while (pt2->duree <= ptache->duree && pt2 != list_task) {
 		pt1 = pt2;
 		pt2 = pt2->psuivant;
 	}
@@ -198,7 +230,78 @@ task * insere_tache(task *list_task, task *ptache)
 	return list_task;
 }
 
+/*********************************************************************/
+
 task * load_data(char * nom_fichier)
 {
+	task * list = NULL;
+	FILE* fsource = NULL;
+	int i = 0;
+	char name[MAX_NOM+1] = "", nom;
+	int duree;
 
+	fsource = fopen(nom_fichier, "r");
+	/* Problème d'ouverture du fichier/ */
+	if (fsource == NULL)
+		printf("erreur dans l'ouverture du fichier\n\n");
+	else {
+		/* Copie de toutes les tâches du fichier dans la liste. */
+		while(fscanf(fsource,"%s\t%d\n",name,&duree) != EOF) {
+			char *nom = (char*)malloc(MAX_NOM*sizeof(char));
+
+			for(i=0; i < MAX_NOM+1;i++)
+                nom[i] = name[i];
+
+            if(list == NULL)
+                list = cree_liste(cree_tache(nom, duree));
+            else
+            	ajoute_tache(list, cree_tache(nom,duree));
+		}
+		fclose(fsource);
+	}
+	return list;
 }
+
+/*********************************************************************/
+
+task * fusion_listes(task *list_task1, task *list_task2)
+{
+	task * fusion = NULL;
+	task * old = NULL;
+	task * newTask;
+
+	while(list_task1 || list_task2)
+	{
+		if(list_task1 && (!list_task2 || list_task1->duree <= list_task2->duree)) // Cas ajout tache de la liste 1.
+		{
+			newTask = malloc(sizeof(task));
+			newTask->duree = list_task1->duree;
+			newTask->ID = list_task1->ID;
+//			newTask->priorite = list_task1->priorite;
+			newTask->psuivant = NULL;
+			list_task1 = list_task1->psuivant;
+		}
+		else if(list_task2 && (!list_task1 || list_task2->duree <= list_task1->duree)) // Cas ajout tache de la liste 2.
+		{
+			newTask = malloc(sizeof(task));
+			newTask->duree = list_task2->duree;
+			newTask->ID = list_task2->ID;
+//			newTask->priorite = list_task2->priorite;
+			newTask->psuivant = NULL;
+			list_task2 = list_task2->psuivant;
+		}
+
+		if(fusion == NULL)
+		{
+			fusion = newTask;
+		}
+		else
+		{
+			old->psuivant = newTask;
+		}
+		old = newTask;
+	}
+	return fusion;
+}
+
+
