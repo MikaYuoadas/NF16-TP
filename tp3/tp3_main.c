@@ -82,7 +82,9 @@ int main()
 							   "4 - Executer une tache en FIFO.\n"
 							   "5 - Executer une tache en LIFO.\n"
 							   "6 - Inserer une tache dans la liste selon la durée.\n"
-							   "7 - Revenir au menu des listes.\n"
+							   "7 - Inserer une tache dans la liste selon la priorité.\n"
+                               "8 - Mettre à jour la priorité des taches.\n"
+							   "9 - Revenir au menu des listes.\n"
 							   "\nChoix : ");
 						scanf("%d", &choix);
 						printf("\n");
@@ -168,15 +170,35 @@ int main()
 
 								break;
 
-							/* Revenir au menu des listes. */
+							/* Insérer une tâche dans la liste selon la priorite. */
 							case 7 :
+
+								printf("id tache : ");
+								scanf("%s", id);
+								printf("duree tache : ");
+								scanf("%d", &nb);
+
+								T[indice] = insere_tache_priorite(T[indice], cree_tache(id,nb));
+
+								break;
+
+                            /* Mettre à jour la priorité des taches */
+                            case 8 :
+
+                                printf("Priorités décrémentés de 1.\n");
+                                MAJ_priorite(T[indice]);
+
+                                break;
+
+							/* Revenir au menu des listes. */
+							case 9 :
 								break;
 
 							default :
 								printf("Commande incorrecte.\n");
 								break;
 						}
-					} while (choix != 0 && choix != 7);
+					} while (choix != 0 && choix != 9);
 				}
 				break;
 

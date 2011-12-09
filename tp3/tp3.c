@@ -303,3 +303,46 @@ task * fusion_listes(task *list_task1, task *list_task2)
 
 	return list_task1;
 }
+
+/*********************************************************************/
+
+task * insere_tache_priorite(task *list_task, task *ptache)
+{
+	task * pt1 = NULL;
+	task * pt2 = NULL;
+
+	if (list_task == NULL || ptache == NULL)
+		return list_task;
+
+	pt1 = list_task;
+	pt2 = list_task->psuivant;
+	/* Recherche de la place de la tâche à insérer en fonction de la
+     * priorité des éléments de la liste.
+	 */
+	while (pt2->priorite <= ptache->priorite && pt2 != list_task) {
+		pt1 = pt2;
+		pt2 = pt2->psuivant;
+	}
+
+	pt1->psuivant = ptache;
+	ptache->psuivant = pt2;
+
+	return list_task;
+}
+
+/*********************************************************************/
+
+int MAJ_priorite(task *list_task)
+{
+    task * pt = NULL;
+
+    pt = list_task->psuivant;
+
+    while (pt != list_task) {
+        pt->priorite -= 1;
+        if (pt->priorite < 1)
+            pt->priorite = 1;
+
+        pt = pt->psuivant;
+    }
+}
