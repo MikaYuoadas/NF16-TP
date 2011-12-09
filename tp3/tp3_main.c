@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 
 #include "tp3.h"
 
@@ -16,7 +15,7 @@ int main()
 	char id[MAX_NOM+1], filename[100];
 	int nb, i, choix, indice = 0;
 	task * T[MAX_LIST] = {NULL,NULL,NULL,NULL,NULL};
-	
+
 	do {
 		printf("\n\n********************** Menu Listes **********************\n\n"
 			   "0 - Quitter.\n"
@@ -29,13 +28,13 @@ int main()
 			   "\nChoix : ");
 		scanf("%d", &choix);
 		printf("\n");
-		
+
 		switch(choix) {
 			/* Quitter. */
 			case 0 :
 				printf("\n\n********************** FIN **********************\n\n");
 				break;
-			
+
 			/* Creer une liste de taches. */
 			case 1 :
 				while (indice < MAX_LIST && T[indice] != NULL) {
@@ -43,9 +42,9 @@ int main()
 				}
 				if (indice < MAX_LIST)
 					T[indice] = cree_liste(T[indice]);
-				
+
 				break;
-				
+
 			/* Charger une liste de taches. */
 			case 2 :
 				printf("Le nom du fichier de taches : ");
@@ -54,11 +53,11 @@ int main()
 				scanf("%d", &i);
 				printf("L'indice de la liste à modifier : ");
 				scanf("%d", &indice);
-				
+
 				T[indice] = load_data(filename, i);
-				
+
 				break;
-			
+
 			/* Afficher les listes. */
 			case 3 :
 				for (i = 0; i < MAX_LIST; i++) {
@@ -67,12 +66,12 @@ int main()
 					printf("\n");
 					}
 				break;
-			
+
 			/* Accéder aux tâches d'une liste. */
 			case 4 :
 				printf("Choix de la liste numero : ");
 				scanf("%d", &indice);
-				
+
 				if (T[indice] != NULL) {
 					do {
 						printf("\n\n********************** Menu Taches **********************\n\n"
@@ -93,57 +92,57 @@ int main()
 							case 0 :
 								printf("\n\n********************** FIN **********************\n\n");
 								break;
-	
+
 							/* Afficher la liste de tâches. */
 							case 1 :
 								affiche_liste(T[indice]);
 								break;
-		
+
 							/* Ajouter une tâche. */
-							case 2 : 
+							case 2 :
 
 								printf("id tache : ");
 								scanf("%s", id);
 								printf("duree tache : ");
 								scanf("%d", &nb);
-		
+
 								nb = ajoute_tache(T[indice], cree_tache(id,nb));
 								if (nb == 1)
 									printf("Ajout reussi.\n");
 								else
 									printf("Erreur ajout.\n");
-		
+
 								break;
-		
+
 							/* Annuler une tâche. */
 							case 3 :
-		
+
 								printf("Tache a supprimer : ");
 								scanf("%s", id);
-		
+
 								T[indice] = annule_tache(T[indice], id);
-		
+
 								break;
-	
+
 							/* Exécuter une tâche en FIFO. */
 							case 4 :
-		
+
 								printf("Nombre de taches a executer : ");
 								scanf("%d", &nb);
 								printf("\n");
-		
+
 								if (nb > 0) {
 									for (i = 0; i < nb; i++)
 										T[indice] = execute_tache_FIFO(T[indice]);
 								}
 								else
 									printf("Erreur du nombre de taches a executer.\n");
-		
+
 								break;
-	
+
 							/* Exécuter une tâche en LIFO. */
 							case 5 :
-		
+
 								printf("Nombre de taches a executer : ");
 								scanf("%d", &nb);
 								printf("\n");
@@ -154,25 +153,25 @@ int main()
 								}
 								else
 									printf("Erreur du nombre de taches a executer.\n");
-		
+
 								break;
-	
+
 							/* Insérer une tâche dans la liste selon la durée. */
 							case 6 :
-		
+
 								printf("id tache : ");
 								scanf("%s", id);
 								printf("duree tache : ");
 								scanf("%d", &nb);
-		
+
 								T[indice] = insere_tache(T[indice], cree_tache(id,nb));
-		
+
 								break;
-	
+
 							/* Revenir au menu des listes. */
 							case 7 :
 								break;
-		
+
 							default :
 								printf("Commande incorrecte.\n");
 								break;
@@ -180,35 +179,31 @@ int main()
 					} while (choix != 0 && choix != 7);
 				}
 				break;
-			
-			
+
+
 			/* Libérer la liste de tâches. */
-			case 5 :			
+			case 5 :
 				printf("Choix de la liste à libérer : ");
 				scanf("%d", &indice);
 				T[indice] = libere_liste(T[indice]);
-			
+
 				break;
-			
-			
+
+
 			/* Fusionner deux listes. */
 			case 6 :
 				printf("Indice de la premiere liste :");
 				scanf("%d", &nb);
 				printf("Indice de la seconde liste :");
 				scanf("%d", &indice);
-				
+
 				T[nb] = fusion_listes(T[nb],T[indice]);
 				break;
-			
+
 			default :
 				printf("Commande incorrecte.\n");
 				break;
-		
 		}
-
-
-		
 	} while (choix != 0);
 
 	return 0;

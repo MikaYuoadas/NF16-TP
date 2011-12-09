@@ -1,7 +1,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 
 #include "tp3.h"
 
@@ -19,7 +18,7 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 {
 	task * pt = NULL;
 
-	if (strcmp(caract, "") == 0 || duree <= 0)
+	if (strcmp(caract, "") == 0 || duree < 0)
 		return NULL;
 	pt = malloc(sizeof(task));
 	if (pt == NULL)
@@ -28,7 +27,7 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 	pt->duree = duree;
 	pt->priorite = duree/10;
 	pt->psuivant = NULL;
-	
+
 	return pt;
 }
 
@@ -37,9 +36,9 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 task * cree_liste(task *tache)
 {
 	task * pt = NULL;
-	
+
 	/* Création de la sentinelle */
-	pt = cree_tache("null", '0');
+	pt = cree_tache("null", 0);
 	if (tache != NULL) {
 		pt->psuivant = tache;
 		tache->psuivant = pt;
@@ -126,7 +125,7 @@ task * annule_tache(task *list_task, char caract[MAX_NOM+1])
 	task * pt1 = NULL;
 	task * pt2 = NULL;
 	int pos, i;
-	
+
 	if (list_task == NULL)
 		return NULL;
 	pt1 = list_task;
@@ -160,7 +159,7 @@ task * libere_liste(task *list_task)
 	while (pt1 != list_task) {
 		pt2 = pt1->psuivant;
 		free(pt1);
-		pt1 = pt2; 
+		pt1 = pt2;
 	}
 
 	/* La sentinelle pointe sur elle-même. */
@@ -175,7 +174,7 @@ task * execute_tache_FIFO(task *list_task)
 	task * pt = NULL;
 
 	pt = list_task->psuivant;
-	if (pt == list_task) 
+	if (pt == list_task)
 		return list_task;
 
 	printf("Execution FIFO de la tache %s (%d)", pt->ID, pt->duree);
@@ -275,42 +274,32 @@ task * load_data(char * nom_fichier, int nb_taches)
 
 task * fusion_listes(task *list_task1, task *list_task2)
 {
-	task * fusion = NULL;
+    task * pt = NULL;
 	task * old = NULL;
-	task * pt = NULL;
+    task * t1 = NULL;
+    task * t2 = NULL;
 
-	while(list_task1 || list_task2)
-	{
-		if(list_task1 && (!list_task2 || list_task1->duree <= list_task2->duree)) // Cas ajout tache de la liste 1.
-		{
-			pt = malloc(sizeof(task));
-			pt->duree = list_task1->duree;
-			strcpy(pt->ID, list_task1->ID);
-			pt->priorite = list_task1->priorite;
-			pt->psuivant = NULL;
-			list_task1 = list_task1->psuivant;
-		}
-		else if(list_task2 && (!list_task1 || list_task2->duree <= list_task1->duree)) // Cas ajout tache de la liste 2.
-		{
-			pt = malloc(sizeof(task));
-			pt->duree = list_task2->duree;
-			strcpy(pt->ID, list_task2->ID);
-			pt->priorite = list_task2->priorite;
-			pt->psuivant = NULL;
-			list_task2 = list_task2->psuivant;
-		}
+    if (list_task1 == NULL || list_task2 == NULL)
+        return NULL;
 
-		if(fusion == NULL)
-		{
-			fusion = pt;
-		}
-		else
-		{
-			old->psuivant = pt;
-		}
-		old = pt;
-	}
-	return fusion;
+    t1 = list_task1->psuivant;
+    t2 = list_task2->psuivant;
+    old = t1;
+
+    while (t1 != list_task1 || t2 != list_task2) {
+        if (t1 != list_task1 && (t2 == list_task2 || t1->duree <= t2->duree)) {
+            pt = t1;
+            t1 = t1->psuivant;
+        } else if (t2 != list_task2 && (t1 == list_task1 || t1)) {
+            pt = t2;
+            t2 = t2->psuivant;
+        }
+        old->psuivant = pt;
+        old = pt;
+    }
+
+    old->psuivant = list_task1;
+    list_task2->psuivant = list_task2;
+
+	return list_task1;
 }
-
-
