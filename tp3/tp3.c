@@ -25,7 +25,7 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 		return NULL;
 	strcpy(pt->ID, caract);
 	pt->duree = duree;
-	pt->priorite = duree/10;
+	pt->priorite = (duree/10 < 5 ? duree/10 : 5);
 	pt->psuivant = NULL;
 
 	return pt;
