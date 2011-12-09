@@ -9,6 +9,11 @@
 
 #define MAX_NOM 4
 
+/* Nom: NF16 - TP03
+ * Sujet: Listes chaînées.
+ * Auteurs: Akim Sadaoui et Antoine Hars
+ * Section: GI01
+ */
 
 typedef struct task
 {

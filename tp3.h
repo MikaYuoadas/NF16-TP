@@ -1,6 +1,12 @@
 #ifndef TP3
 #define TP3
 
+/* Nom: NF16 - TP03
+ * Sujet: Listes chaînées.
+ * Auteurs: Akim Sadaoui et Antoine Hars
+ * Section: GI01
+ */
+
 #define MAX_NOM 20      	// Taille maximale des ID.
 #define MAX_LIST 5			// Taille maximale des listes.
 
@@ -8,6 +14,7 @@ typedef struct task
 {
 	char ID[MAX_NOM+1];    // Identifiant (nom) unique de la tâche.
 	int duree;			   // Durée de la tâche (en période processeur).
+	int priorite;		   // Priorité de la tâche.
 	struct task *psuivant; // Pointeur de la tâche suivante.
 } task;
 
@@ -79,9 +86,10 @@ task * insere_tache(task *list_task, task *ptache);
 
 /* Charge les tâches du fichier texte dans la liste de tâches.
  * nom_fichier : fichier texte contenant les tâches à exécuter.
+ * nb_taches : le nombre de tâches à charger.
  * Retourne la liste de tâches.
  */
-task * load_data(char * nom_fichier);
+task * load_data(char * nom_fichier, int nb_taches);
 
 /* Fusionne 2 listes de tâches en fonction de leur durées dans la première liste.
  * list_task1 : la première liste de tâches.
@@ -89,4 +97,9 @@ task * load_data(char * nom_fichier);
  * Retourne la liste fusionnée.
  */
 task * fusion_listes(task *list_task1, task *list_task2);
+
+task * insere_tache_priorite(task *list_task, task *ptache);
+
+int MAJ_priorite(task *list_task);
+
 #endif

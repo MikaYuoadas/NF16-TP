@@ -5,10 +5,16 @@
 
 #include "tp3.h"
 
+/* Nom: NF16 - TP03
+ * Sujet: Listes chaînées.
+ * Auteurs: Akim Sadaoui et Antoine Hars
+ * Section: GI01
+ */
+
 int main()
 {
 	char id[MAX_NOM+1], filename[100];
-	int nb, i, choix, nb, indice = 0;
+	int nb, i, choix, indice = 0;
 	task * T[MAX_LIST] = {NULL,NULL,NULL,NULL,NULL};
 	
 	do {
@@ -44,10 +50,12 @@ int main()
 			case 2 :
 				printf("Le nom du fichier de taches : ");
 				scanf("%s", filename);
+				printf("Le nombre de tâches à charger : ");
+				scanf("%d", &i);
 				printf("L'indice de la liste à modifier : ");
 				scanf("%d", &indice);
 				
-				T[indice] = load_data(filename);
+				T[indice] = load_data(filename, i);
 				
 				break;
 			

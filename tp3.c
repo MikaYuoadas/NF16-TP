@@ -1,9 +1,17 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-//#include <windows.h>
+#include <windows.h>
 
 #include "tp3.h"
+
+/* Nom: NF16 - TP03
+ * Sujet: Listes chaînées.
+ * Auteurs: Akim Sadaoui et Antoine Hars
+ * Section: GI01
+ */
+
+
 
 /*********************************************************************/
 
@@ -18,6 +26,7 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 		return NULL;
 	strcpy(pt->ID, caract);
 	pt->duree = duree;
+	pt->priorite = duree/10;
 	pt->psuivant = NULL;
 	
 	return pt;
@@ -57,7 +66,7 @@ void affiche_liste(task *list_task)
 		else {
 			printf("Liste de taches:\n");
 			while(pt != list_task) {
-				printf("tache : %s\t duree : %d\n", pt->ID, pt->duree);
+				printf("tache : %s\t duree : %d\tpriorite : %d\n", pt->ID, pt->duree, pt->priorite);
 				pt = pt->psuivant;
 			}
 		}
@@ -232,13 +241,12 @@ task * insere_tache(task *list_task, task *ptache)
 
 /*********************************************************************/
 
-task * load_data(char * nom_fichier)
+task * load_data(char * nom_fichier, int nb_taches)
 {
 	task * list = NULL;
 	FILE* fsource = NULL;
-	int i = 0;
+	int i = 0, duree, cmp = 0;
 	char name[MAX_NOM+1] = "", nom;
-	int duree;
 
 	fsource = fopen(nom_fichier, "r");
 	/* Problème d'ouverture du fichier/ */
@@ -246,7 +254,7 @@ task * load_data(char * nom_fichier)
 		printf("erreur dans l'ouverture du fichier\n\n");
 	else {
 		/* Copie de toutes les tâches du fichier dans la liste. */
-		while(fscanf(fsource,"%s\t%d\n",name,&duree) != EOF) {
+		while((fscanf(fsource,"%s\t%d\n",name,&duree) != EOF) && (cmp < nb_taches)) {
 			char *nom = (char*)malloc(MAX_NOM*sizeof(char));
 
 			for(i=0; i < MAX_NOM+1;i++)
@@ -256,6 +264,7 @@ task * load_data(char * nom_fichier)
                 list = cree_liste(cree_tache(nom, duree));
             else
             	ajoute_tache(list, cree_tache(nom,duree));
+            cmp++;
 		}
 		fclose(fsource);
 	}
@@ -268,38 +277,38 @@ task * fusion_listes(task *list_task1, task *list_task2)
 {
 	task * fusion = NULL;
 	task * old = NULL;
-	task * newTask;
+	task * pt = NULL;
 
 	while(list_task1 || list_task2)
 	{
 		if(list_task1 && (!list_task2 || list_task1->duree <= list_task2->duree)) // Cas ajout tache de la liste 1.
 		{
-			newTask = malloc(sizeof(task));
-			newTask->duree = list_task1->duree;
-			newTask->ID = list_task1->ID;
-//			newTask->priorite = list_task1->priorite;
-			newTask->psuivant = NULL;
+			pt = malloc(sizeof(task));
+			pt->duree = list_task1->duree;
+			strcpy(pt->ID, list_task1->ID);
+			pt->priorite = list_task1->priorite;
+			pt->psuivant = NULL;
 			list_task1 = list_task1->psuivant;
 		}
 		else if(list_task2 && (!list_task1 || list_task2->duree <= list_task1->duree)) // Cas ajout tache de la liste 2.
 		{
-			newTask = malloc(sizeof(task));
-			newTask->duree = list_task2->duree;
-			newTask->ID = list_task2->ID;
-//			newTask->priorite = list_task2->priorite;
-			newTask->psuivant = NULL;
+			pt = malloc(sizeof(task));
+			pt->duree = list_task2->duree;
+			strcpy(pt->ID, list_task2->ID);
+			pt->priorite = list_task2->priorite;
+			pt->psuivant = NULL;
 			list_task2 = list_task2->psuivant;
 		}
 
 		if(fusion == NULL)
 		{
-			fusion = newTask;
+			fusion = pt;
 		}
 		else
 		{
-			old->psuivant = newTask;
+			old->psuivant = pt;
 		}
-		old = newTask;
+		old = pt;
 	}
 	return fusion;
 }
