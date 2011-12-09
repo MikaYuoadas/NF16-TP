@@ -18,7 +18,7 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 {
 	task * pt = NULL;
 
-	if (strcmp(caract, "") == 0 || duree < 0)
+	if (strcmp(caract, "") == 0 || duree < 1)
 		return NULL;
 	pt = malloc(sizeof(task));
 	if (pt == NULL)
@@ -26,6 +26,8 @@ task * cree_tache(char caract[MAX_NOM+1], int duree)
 	strcpy(pt->ID, caract);
 	pt->duree = duree;
 	pt->priorite = (duree/10 < 5 ? duree/10 : 5);
+    if (pt->priorite == 0)
+        pt->priorite = 1;
 	pt->psuivant = NULL;
 
 	return pt;
@@ -38,7 +40,7 @@ task * cree_liste(task *tache)
 	task * pt = NULL;
 
 	/* Création de la sentinelle */
-	pt = cree_tache("null", 0);
+	pt = cree_tache("null", 1);
 	if (tache != NULL) {
 		pt->psuivant = tache;
 		tache->psuivant = pt;
