@@ -17,10 +17,10 @@
 
 typedef struct task
 {
-	char ID[MAX_NOM+1];			//Nom de la tache
-	int duree;					//Durée de la tâche (en période processeur)
-	int priorite;				//priorite
-	struct task *psuivant;				//Pointeur à la suivante
+	char ID[MAX_NOM+1];         //Nom de la tache
+	int duree;                  //Durée de la tâche (en période processeur)
+	int priorite;               //priorite
+	struct task *psuivant;      //Pointeur à la suivante
 }task;
 
 
