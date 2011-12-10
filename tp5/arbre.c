@@ -107,3 +107,34 @@ void post_ordre(Node * node)
             printf("%c ", node->name);
     }
 }
+
+void affiche_expression(Node * node)
+{
+    static int in = 0;
+
+    if (node != NULL) {
+        if (in) {
+            if (node->name == '+')
+                printf("(");
+
+            affiche_expression(node->left);
+            if (node->name == '\0') {
+                printf("%.5g", node->value);
+            } else
+                printf(" %c ", node->name);
+            affiche_expression(node->right);
+
+            if (node->name == '+')
+                printf(")");
+        } else {
+            in = 1;
+            affiche_expression(node->left);
+            if (node->name == '\0') {
+                printf("%.5g", node->value);
+            } else
+                printf(" %c ", node->name);
+            affiche_expression(node->right);
+            in = 0;
+        }
+    }
+}

@@ -17,5 +17,6 @@ Node * saisie_expression();
 void pre_ordre(Node * node);
 void in_ordre(Node * node);
 void post_ordre(Node * node);
+void affiche_expression(Node * node);
 
 #endif

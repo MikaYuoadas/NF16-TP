@@ -13,5 +13,7 @@ int main()
     printf("\n");
     post_ordre(node);
     printf("\n");
+    affiche_expression(node);
+    printf("\n");
     return 0;
 }
