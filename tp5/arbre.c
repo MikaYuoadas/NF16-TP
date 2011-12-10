@@ -74,7 +74,7 @@ void pre_ordre(Node * node)
 {
     if (node != NULL) {
         if (node->name == '\0')
-            printf("%f ", node->value);
+            printf("%.2f ", node->value);
         else
             printf("%c ", node->name);
         pre_ordre(node->left);
@@ -88,7 +88,7 @@ void in_ordre(Node * node)
     if (node != NULL) {
         in_ordre(node->left);
         if (node->name == '\0')
-            printf("%f ", node->value);
+            printf("%.2f ", node->value);
         else
             printf("%c ", node->name);
         in_ordre(node->right);
@@ -102,7 +102,7 @@ void post_ordre(Node * node)
         post_ordre(node->left);
         post_ordre(node->right);
         if (node->name == '\0')
-            printf("%f ", node->value);
+            printf("%.2f ", node->value);
         else
             printf("%c ", node->name);
     }
