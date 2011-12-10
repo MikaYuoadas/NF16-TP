@@ -6,6 +6,7 @@
 int main()
 {
     Node * node;
+    Node * node2;
     node = saisie_expression();
     pre_ordre(node);
     printf("\n");
@@ -14,6 +15,9 @@ int main()
     post_ordre(node);
     printf("\n");
     affiche_expression(node);
+    printf("\n");
+    node2 = clone(node);
+    affiche_expression(node2);
     printf("\n");
     return 0;
 }

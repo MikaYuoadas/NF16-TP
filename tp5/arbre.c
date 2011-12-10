@@ -14,9 +14,13 @@ Node * create_node(char * val, Node * right, Node * left)
     if (node == NULL)
         return NULL;
 
-    if (!strcmp(val, "+") || !strcmp(val, "*"))
+    if (val == NULL) {
+        node->name = '\0';
+        node->value = 0;
+    } else if (!strcmp(val, "+") || !strcmp(val, "*")) {
         node->name = val[0];
-    else {
+        node->value = 0;
+    } else {
         node->name = '\0';
         node->value = atof(val);
     }
@@ -108,6 +112,7 @@ void post_ordre(Node * node)
     }
 }
 
+
 void affiche_expression(Node * node)
 {
     static int in = 0;
@@ -137,4 +142,19 @@ void affiche_expression(Node * node)
             in = 0;
         }
     }
+}
+
+
+Node * clone(Node * node)
+{
+    Node * pt;
+
+    if(node != NULL) {
+        pt = create_node(NULL, clone(node->right), clone(node->left));
+        pt->value = node->value;
+        pt->name = node->name;
+
+        return pt;
+    } else
+        return NULL;
 }
