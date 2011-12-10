@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "arbre.h"
 
 
-Node * create_node(char val, Node * right, Node * left)
+Node * create_node(char * val, Node * right, Node * left)
 {
     Node * node;
 
@@ -12,11 +13,12 @@ Node * create_node(char val, Node * right, Node * left)
     if (node == NULL)
         return NULL;
 
-    if (val <= '9' && val >= '0') {
+    if (!strcmp(val, "+") || !strcmp(val, "*"))
+        node->name = val[0];
+    else {
         node->name = '\0';
-        node->value = val - '0';
-    } else
-        node->name = val;
+        node->value = atof(val);
+    }
 
     node->right = right;
     node->left = left;
@@ -27,32 +29,37 @@ Node * create_node(char val, Node * right, Node * left)
 
 Node * saisie_expression()
 {
-    char exp[LEN];
-    int i = 0;
-    Node * node;
-    pile * p;
-    Node * r;
-    Node * l;
+    char rep[LEN];
+    char * exp = NULL;
+    char ** endptr = NULL;
+    Node * node = NULL;
+    pile * p = NULL;
+    Node * r = NULL;
+    Node * l = NULL;
 
     printf("Saisissez une expression en notation polonaise inverse :\n");
-    scanf("%s", exp);
+    fgets(rep, LEN, stdin);
+    exp = strtok(rep, " \t\n");
 
     p = create_pile();
 
-    /* TODO : pouvoir entrer un nombre composé de plusieurs chiffres */
-    while (exp[i] != '\0' && i < LEN) {
-        if (exp[i] == '+' || exp[i] == '*') {
+    while (exp != NULL) {
+        if (!strcmp(exp, "+") || !strcmp(exp, "*")) {
             r = depiler(p);
             l = depiler(p);
-            node = create_node(exp[i], r, l);
+            node = create_node(exp, r, l);
             if (node == NULL || node->right == NULL || node->left == NULL || empiler(node, p))
                 return NULL;
-        } else if (exp[i] >= '0' && exp[i] <= '9') {
-            node = create_node(exp[i], NULL, NULL);
+        } else {
+            strtod(exp, endptr);
+            if (endptr == &exp)
+                return NULL;
+
+            node = create_node(exp, NULL, NULL);
             if (node == NULL || empiler(node, p))
                 return NULL;
         }
-        i++;
+        exp = strtok(NULL, " \t\n");
     }
 
     if (size(p) != 1)
@@ -66,7 +73,7 @@ void pre_ordre(Node * node)
 {
     if (node != NULL) {
         if (node->name == '\0')
-            printf("%d ", node->value);
+            printf("%f ", node->value);
         else
             printf("%c ", node->name);
         pre_ordre(node->left);
@@ -80,7 +87,7 @@ void in_ordre(Node * node)
     if (node != NULL) {
         in_ordre(node->left);
         if (node->name == '\0')
-            printf("%d ", node->value);
+            printf("%f ", node->value);
         else
             printf("%c ", node->name);
         in_ordre(node->right);
@@ -94,7 +101,7 @@ void post_ordre(Node * node)
         post_ordre(node->left);
         post_ordre(node->right);
         if (node->name == '\0')
-            printf("%d ", node->value);
+            printf("%f ", node->value);
         else
             printf("%c ", node->name);
     }
