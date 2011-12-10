@@ -19,5 +19,6 @@ void in_ordre(Node * node);
 void post_ordre(Node * node);
 void affiche_expression(Node * node);
 Node * clone(Node * node);
+void calcul_intermediaire(Node * node);
 
 #endif

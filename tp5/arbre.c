@@ -158,3 +158,24 @@ Node * clone(Node * node)
     } else
         return NULL;
 }
+
+
+void calcul_intermediaire(Node * node)
+{
+    if (node->right != NULL && node->left != NULL) {
+        if (node->right->name == '\0' && node->left->name == '\0') {
+            if (node->name == '+')
+                node->value = node->right->value + node->left->value;
+            else if (node->name == '*')
+                node->value = node->right->value * node->left->value;
+            node->name = '\0';
+            free(node->right);
+            free(node->left);
+            node->right = NULL;
+            node->left= NULL;
+        } else {
+            calcul_intermediaire(node->right);
+            calcul_intermediaire(node->left);
+        }
+   }
+}
