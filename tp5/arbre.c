@@ -39,7 +39,7 @@ Node * saisie_expression()
 
     p = create_pile();
 
-    /* TODO : pouvoir entrer un nombre composé de plusieurs chiffres */
+    /* TODO : pouvoir entrer un nombre composÃ© de plusieurs chiffres */
     while (exp[i] != '\0' && i < LEN) {
         if (exp[i] == '+' || exp[i] == '*') {
             r = depiler(p);

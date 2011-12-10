@@ -1,4 +1,4 @@
-#ifndef  ARBRE
+#ifndef ARBRE
 #define ARBRE
 
 #include "pile.h"
@@ -11,7 +11,7 @@ typedef struct pile pile;
 typedef struct Node {
     struct Node * left;		/* fils gauche */
     struct Node * right;	/* fils droit */
-    char name;				/* nom de l’opérateur */
+    char name;				/* nom de l'opÃ©rateur */
     int value;				/* valeur de la constante */
 } Node;
 
