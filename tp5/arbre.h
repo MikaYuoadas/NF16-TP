@@ -1,12 +1,8 @@
 #ifndef ARBRE
 #define ARBRE
 
-#include "pile.h"
-
 #define LEN 20
 
-
-typedef struct pile pile;
 
 typedef struct Node {
     struct Node * left;		/* fils gauche */

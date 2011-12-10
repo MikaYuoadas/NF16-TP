@@ -4,8 +4,6 @@
 #include "arbre.h"
 
 
-typedef struct Node Node;
-
 typedef struct pile {
     Node * node;
     struct pile * next;

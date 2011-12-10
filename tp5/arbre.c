@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "arbre.h"
+#include "pile.h"
 
 
 Node * create_node(char * val, Node * right, Node * left)
