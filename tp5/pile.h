@@ -7,8 +7,8 @@
 typedef struct Node Node;
 
 typedef struct pile {
-	Node * node;
-	struct pile * next;
+    Node * node;
+    struct pile * next;
 } pile;
 
 

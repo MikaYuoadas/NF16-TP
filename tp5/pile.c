@@ -5,66 +5,67 @@
 
 pile * create_pile()
 {
-	pile * p;
+    pile * p;
 
-	p = malloc(sizeof(pile));
-	p->node = NULL;
-	p->next = NULL;
+    p = malloc(sizeof(pile));
+    p->node = NULL;
+    p->next = NULL;
 
-	return p;
+    return p;
 }
 
 
 void destroy(pile * p)
 {
-	pile * next;
+    pile * next;
 
-	while (p != NULL) {
-		next = p->next;
-		free(p);
-		p = next;
-	}
+    while (p != NULL) {
+        next = p->next;
+        free(p);
+        p = next;
+    }
 }
 
 
 int empiler(Node * node, pile * p)
 {
-	pile *head, *newNode;
+    pile *head, *newNode;
 
-	head = p->next;
-	newNode = malloc(sizeof(pile));
-	if (newNode == NULL)
-		return 1;
+    head = p->next;
+    newNode = malloc(sizeof(pile));
+    if (newNode == NULL)
+        return 1;
 
-	p->next = newNode;
-	newNode->next = head;
+    p->next = newNode;
+    newNode->next = head;
+    newNode->node = node;
 
-	return 0;
+    return 0;
 }
 
 
 Node * depiler(pile * p)
 {
-	pile * ret;
+    pile * ret;
 
-	if (p == NULL || p->next == NULL)
-		return NULL;
-	
-	ret = p->next;
-	p->next = p->next->next;
+    if (p == NULL || p->next == NULL)
+        return NULL;
 
-	return ret->node;
+    ret = p->next;
+    p->next = p->next->next;
+
+    return ret->node;
 }
 
 
 int size(pile * p)
 {
-	int nb = -1;
+    int nb = -1;
 
-	while (p != NULL) {
-		p = p->next;
-		nb++;
-	}
+    while (p != NULL) {
+        p = p->next;
+        nb++;
+    }
 
-	return nb;
+    return nb;
 }
