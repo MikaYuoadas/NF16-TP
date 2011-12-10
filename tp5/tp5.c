@@ -18,9 +18,12 @@ int main()
     printf("\n");
     node2 = clone(node);
     affiche_expression(node2);
-    printf("\nCalcul intermédiaire : ");
-    calcul_intermediaire(node);
+    printf("\nCalcul complet : ");
+    calcul(node);
     affiche_expression(node);
+    printf("\nCalcul intermédiaire : ");
+    calcul_intermediaire(node2);
+    affiche_expression(node2);
     printf("\n");
 
     return 0;

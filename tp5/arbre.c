@@ -179,3 +179,10 @@ void calcul_intermediaire(Node * node)
         }
    }
 }
+
+
+void calcul(Node * node)
+{
+    while (node->right != NULL && node->left != NULL)
+        calcul_intermediaire(node);
+}
