@@ -31,15 +31,20 @@ Node * saisie_expression()
 	int i = 0;
 	Node * node;
 	pile * p;
+    Node * r;
+    Node * l;
 
+    printf("Saisissez une expression en notation polonaise inverse :\n");
 	scanf("%s", exp);
 
 	p = create_pile();
-	
+
 	/* TODO : pouvoir entrer un nombre composé de plusieurs chiffres */
 	while (exp[i] != '\0' && i < LEN) {
 		if (exp[i] == '+' || exp[i] == '*') {
-			node = create_node(exp[i], depiler(p), depiler(p));
+            r = depiler(p);
+            l = depiler(p);
+			node = create_node(exp[i], r, l);
 			if (node == NULL || node->right == NULL || node->left == NULL || empiler(node, p))
 				return NULL;
 		} else if (exp[i] >= '0' && exp[i] <= '9') {
