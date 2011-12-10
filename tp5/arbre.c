@@ -12,7 +12,7 @@ Node * create_node(char val, Node * right, Node * left)
 	if (node == NULL)
 		return NULL;
 
-	if (val <= '9' || val >= '0') {
+	if (val <= '9' && val >= '0') {
 		node->name = '\0';
 		node->value = val - '0';
 	} else
