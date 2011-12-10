@@ -1,7 +1,7 @@
 #ifndef ARBRE
 #define ARBRE
 
-#define LEN 20
+#define LEN 100
 
 
 typedef struct Node {
