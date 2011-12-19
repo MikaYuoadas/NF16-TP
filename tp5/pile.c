@@ -8,8 +8,10 @@ pile * create_pile()
     pile * p;
 
     p = malloc(sizeof(pile));
-    p->node = NULL;
-    p->next = NULL;
+    if (p != NULL) {
+        p->node = NULL;
+        p->next = NULL;
+    }
 
     return p;
 }
