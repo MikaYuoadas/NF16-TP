@@ -7,18 +7,23 @@ int main()
 {
     Node * node;
     Node * node2;
+
     node = saisie_expression();
+
+    printf("\nPré ordre : ");
     pre_ordre(node);
-    printf("\n");
+    printf("\nIn ordre : ");
     in_ordre(node);
-    printf("\n");
+    printf("\nPost ordre : ");
     post_ordre(node);
-    printf("\n");
+
+    printf("\n\nAffichage formaté : ");
     affiche_expression(node);
-    printf("\n");
+    printf("\nAffichage formaté clone : ");
     node2 = clone(node);
     affiche_expression(node2);
-    printf("\nCalcul complet : ");
+
+    printf("\n\nCalcul Complet : ");
     calcul(node);
     affiche_expression(node);
     printf("\nCalcul intermédiaire : ");

@@ -193,17 +193,41 @@ Node * clone(Node * node)
 
 void calcul_intermediaire(Node * node)
 {
-    if (node->right != NULL && node->left != NULL) {
+    Node * pt;
+
+    if (node != NULL && node->right != NULL && node->left != NULL) {
         if (node->right->name == '\0' && node->left->name == '\0') {
             if (node->name == '+')
                 node->value = node->right->value + node->left->value;
             else if (node->name == '*')
                 node->value = node->right->value * node->left->value;
+
             node->name = '\0';
             destroy_all(node->right);
             destroy_all(node->left);
             node->right = NULL;
             node->left= NULL;
+        } else if ((isalpha(node->right->name) && node->left->name == '\0') ||
+                   (isalpha(node->left->name) && node->right->name == '\0')){
+            if ((node->left->value == 0 || node->right->value == 0) && node->name == '*') {
+                destroy_all(node->right);
+                destroy_all(node->left);
+
+                node->right = NULL;
+                node->left = NULL;
+                node->value = 0;
+                node->name = '\0';
+            } else if ((node->left->value == 0 && node->name == '+') || (node->left->value == 1 && node->name == '*')) {
+                destroy_all(node->left);
+                pt = node->right;
+                copy(node->right, node);
+                free(pt);
+            } else if ((node->right->value == 0 && node->name == '+') || (node->right->value == 1 && node->name == '*')) {
+                destroy_all(node->right);
+                pt = node->left;
+                copy(node->left, node);
+                free(pt);
+            }
         } else {
             calcul_intermediaire(node->right);
             calcul_intermediaire(node->left);
@@ -214,6 +238,41 @@ void calcul_intermediaire(Node * node)
 
 void calcul(Node * node)
 {
-    while (node->right != NULL && node->left != NULL)
-        calcul_intermediaire(node);
+    Node * pt;
+
+    if (node != NULL && node->right != NULL && node->left != NULL) {
+        calcul(node->right);
+        calcul(node->left);
+
+        if (node->right->name == '\0' && node->left->name == '\0') {
+            if (node->name == '+')
+                node->value = node->right->value + node->left->value;
+            else if (node->name == '*')
+                node->value = node->right->value * node->left->value;
+
+            node->name = '\0';
+            destroy_all(node->right);
+            destroy_all(node->left);
+            node->right = NULL;
+            node->left= NULL;
+        } else if ((node->left->value == 0 || node->right->value == 0) && node->name == '*') {
+            destroy_all(node->right);
+            destroy_all(node->left);
+
+            node->right = NULL;
+            node->left = NULL;
+            node->value = 0;
+            node->name = '\0';
+        } else if ((node->left->value == 0 && node->name == '+') || (node->left->value == 1 && node->name == '*')) {
+            destroy_all(node->left);
+            pt = node->right;
+            copy(node->right, node);
+            free(pt);
+        } else if ((node->right->value == 0 && node->name == '+') || (node->right->value == 1 && node->name == '*')) {
+            destroy_all(node->right);
+            pt = node->left;
+            copy(node->left, node);
+            free(pt);
+        }
+    }
 }
