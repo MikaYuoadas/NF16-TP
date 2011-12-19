@@ -9,24 +9,29 @@
 Node * create_node(char * val, Node * right, Node * left)
 {
     Node * node;
+    char ** endptr = NULL;
 
     node = malloc(sizeof(Node));
-    if (node == NULL)
-        return NULL;
+    if (node != NULL) {
+        if (val == NULL) {
+            node->name = '\0';
+            node->value = 0;
+        } else if (!strcmp(val, "+") || !strcmp(val, "*") || isalpha(val[0])) {
+            node->name = val[0];
+            node->value = -42;
+        } else {
+            node->value = strtod(val, endptr);
+            if (endptr == &val) {
+                free(node);
+                return NULL;
+            }
 
-    if (val == NULL) {
-        node->name = '\0';
-        node->value = 0;
-    } else if (!strcmp(val, "+") || !strcmp(val, "*")) {
-        node->name = val[0];
-        node->value = 0;
-    } else {
-        node->name = '\0';
-        node->value = atof(val);
+            node->name = '\0';
+        }
+
+        node->right = right;
+        node->left = left;
     }
-
-    node->right = right;
-    node->left = left;
 
     return node;
 }
@@ -56,7 +61,6 @@ Node * saisie_expression()
 {
     char rep[LEN];
     char * exp = NULL;
-    char ** endptr = NULL;
     Node * node = NULL;
     pile * p = NULL;
     Node * r = NULL;
@@ -74,23 +78,25 @@ Node * saisie_expression()
             l = depiler(p);
             node = create_node(exp, r, l);
             if (node == NULL || node->right == NULL || node->left == NULL || empiler(node, p))
-                return NULL;
+                 break;
         } else {
-            strtod(exp, endptr);
-            if (endptr == &exp)
-                return NULL;
-
             node = create_node(exp, NULL, NULL);
             if (node == NULL || empiler(node, p))
-                return NULL;
+                break;
         }
         exp = strtok(NULL, " \t\n");
     }
 
     if (size(p) != 1)
-        return NULL;
+        do {
+            node = depiler(p);
+            destroy_all(node);
+        } while (node != NULL);
     else
-        return depiler(p);
+        node = depiler(p);
+
+    destroy(p);
+    return node;
 }
 
 
