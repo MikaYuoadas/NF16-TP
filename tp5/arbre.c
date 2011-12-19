@@ -200,8 +200,8 @@ void calcul_intermediaire(Node * node)
             else if (node->name == '*')
                 node->value = node->right->value * node->left->value;
             node->name = '\0';
-            free(node->right);
-            free(node->left);
+            destroy_all(node->right);
+            destroy_all(node->left);
             node->right = NULL;
             node->left= NULL;
         } else {
