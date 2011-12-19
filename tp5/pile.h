@@ -3,6 +3,11 @@
 
 #include "arbre.h"
 
+/* Nom: NF16 - TP05
+ * Sujet: Arbres et calcul formel
+ * Auteurs: Akim Sadaoui et Antoine Hars
+ * Section: GI01
+ */
 
 typedef struct pile {
     Node * node;           // pointeur vers un node de la pile
