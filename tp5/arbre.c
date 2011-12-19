@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "arbre.h"
 #include "pile.h"
@@ -151,7 +152,9 @@ void affiche_expression(Node * node)
             affiche_expression(node->left);
             if (node->name == '\0') {
                 printf("%.5g", node->value);
-            } else
+            } else if (isalpha(node->name))
+                printf("%c", node->name);
+            else
                 printf(" %c ", node->name);
             affiche_expression(node->right);
 
@@ -162,7 +165,9 @@ void affiche_expression(Node * node)
             affiche_expression(node->left);
             if (node->name == '\0') {
                 printf("%.5g", node->value);
-            } else
+            } else if (isalpha(node->name))
+                printf("%c", node->name);
+            else
                 printf(" %c ", node->name);
             affiche_expression(node->right);
             in = 0;
