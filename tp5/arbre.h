@@ -23,5 +23,6 @@ void affiche_expression(Node * node);
 Node * clone(Node * node);
 void calcul_intermediaire(Node * node);
 void calcul(Node * node);
+void developpement(Node * node);
 
 #endif

@@ -276,3 +276,53 @@ void calcul(Node * node)
         }
     }
 }
+
+
+void developpement(Node * node)
+{
+    Node * a = NULL;
+    Node * b = NULL;
+    Node * c = NULL;
+    Node * d = NULL;
+
+    if (node != NULL && node->right != NULL && node->left != NULL) {
+        developpement(node->right);
+        developpement(node->left);
+
+        if (node->name == '*') {
+            if (node->right->name == '+' && node->left->name == '+') {
+                a = node->left->left;
+                b = node->left->right;
+                c = node->right->left;
+                d = node->right->right;
+
+                node->name = '+';
+                node->left->left = create_node("*", c, a);
+                node->left->right = create_node("*", d, clone(a));
+                node->right->left = create_node("*", clone(c), b);
+                node->right->right = create_node("*", clone(d), clone(b));
+            } else if (node->right->name == '+') {
+                a = node->left;
+                b = node->right->left;
+                c = node->right->right;
+
+                node->name = '+';
+                free(node->right);
+
+                node->left = create_node("*", b, a);
+                node->right = create_node("*", c, clone(a));
+            } else if (node->left->name == '+') {
+                a = node->right;
+                b = node->left->left;
+                c = node->left->right;
+
+                node->name = '+';
+                free(node->left);
+
+                node->right = create_node("*", b, a);
+                node->left = create_node("*", c, clone(a));
+            } else
+                return;
+        }
+    }
+}
