@@ -26,5 +26,8 @@ int main()
     affiche_expression(node2);
     printf("\n");
 
+    destroy_all(node);
+    destroy_all(node2);
+
     return 0;
 }
