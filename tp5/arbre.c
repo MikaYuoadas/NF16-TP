@@ -175,7 +175,7 @@ Node * clone(Node * node)
 {
     Node * pt;
 
-    if(node != NULL) {
+    if (node != NULL) {
         pt = create_node(NULL, clone(node->right), clone(node->left));
         pt->value = node->value;
         pt->name = node->name;
