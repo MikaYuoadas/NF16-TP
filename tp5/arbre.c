@@ -32,6 +32,26 @@ Node * create_node(char * val, Node * right, Node * left)
 }
 
 
+void destroy_all(Node * node)
+{
+    if (node != NULL) {
+        destroy_all(node->right);
+        destroy_all(node->left);
+
+        free(node);
+    }
+}
+
+
+void copy(Node * src, Node * dest)
+{
+    dest->name = src->name;
+    dest->value = src->value;
+    dest->right = src->right;
+    dest->left = src->left;
+}
+
+
 Node * saisie_expression()
 {
     char rep[LEN];

@@ -13,6 +13,8 @@ typedef struct Node {
 
 
 Node * create_node(char * val, Node *left, Node *right);
+void destroy_all(Node * node);
+void copy(Node * src, Node * dest);
 Node * saisie_expression();
 void pre_ordre(Node * node);
 void in_ordre(Node * node);
