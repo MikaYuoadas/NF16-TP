@@ -178,7 +178,7 @@ void affiche_expression(Node * node)
 
 Node * clone(Node * node)
 {
-    Node * pt;
+    Node * pt = NULL;
 
     if (node != NULL) {
         pt = create_node(NULL, clone(node->right), clone(node->left));
@@ -193,7 +193,7 @@ Node * clone(Node * node)
 
 void calcul_intermediaire(Node * node)
 {
-    Node * pt;
+    Node * pt = NULL;
 
     if (node != NULL && node->right != NULL && node->left != NULL) {
         if (node->right->name == '\0' && node->left->name == '\0') {
@@ -238,7 +238,7 @@ void calcul_intermediaire(Node * node)
 
 void calcul(Node * node)
 {
-    Node * pt;
+    Node * pt = NULL;
 
     if (node != NULL && node->right != NULL && node->left != NULL) {
         calcul(node->right);
