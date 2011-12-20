@@ -8,6 +8,7 @@ int main()
     Node * node;
     Node * node2;
     Node * node3;
+    Node * node4;
 
     node = saisie_expression();
 
@@ -23,6 +24,7 @@ int main()
     printf("\nAffichage formaté clone : ");
     node2 = clone(node);
     node3 = clone(node);
+    node4 = clone(node);
     affiche_expression(node2);
 
     printf("\n\nCalcul Complet : ");
@@ -35,11 +37,16 @@ int main()
     printf("\n\nDéveloppement : ");
     developpement(node3);
     affiche_expression(node3);
+
+    printf("\n\nDérivation selon x : ");
+    derivation(node4, 'x');
+    affiche_expression(node4);
     printf("\n");
 
     destroy_all(node);
     destroy_all(node2);
     destroy_all(node3);
+    destroy_all(node4);
 
     return 0;
 }

@@ -388,3 +388,42 @@ void developpement(Node * node)
         }
     }
 }
+
+/*********************************************************************/
+
+void derivation(Node * node, char v)
+{
+    Node * f = NULL;
+    Node * fprime = NULL;
+    Node * g = NULL;
+    Node * gprime = NULL;
+
+    if (node != NULL) {
+        if(node->right != NULL && node->left != NULL) {
+            f = node->left;
+            g = node->right;
+            if (node->name == '+') {
+                /* La dérivé d'une somme est la somme des dérivés. */
+                derivation(f, v);
+                derivation(g, v);
+            } else if (node->name == '*') {
+                /* La dérivé d'un produit est donnée par (fg)' = f'g + fg' */
+                fprime = clone(f);
+                gprime = clone(g);
+
+                derivation(fprime, v);
+                derivation(gprime, v);
+
+                node->name = '+';
+                node->left = create_node("*", g, fprime);
+                node->right = create_node("*", gprime, f);
+            }
+        } else {
+            /* Si le node est une constante, sa dérivé vaut 0,
+             * Si le node est la variable de dérivation sa dérivé vaut 1.
+             */
+            node->name = '\0';
+            node->value = (node->name == v ? 1 : 0);
+        }
+    }
+}

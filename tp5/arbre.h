@@ -82,4 +82,9 @@ void calcul(Node * node);
  */
 void developpement(Node * node);
 
+/* Dérive l'expression selon la variable donnée.
+ * node : l'arbre contenant l'expression à dériver.
+ * v : la variable de dérivation.
+ */
+void derivation(Node * node, char v);
 #endif
