@@ -39,6 +39,7 @@ int main()
 
     destroy_all(node);
     destroy_all(node2);
+    destroy_all(node3);
 
     return 0;
 }
