@@ -75,6 +75,7 @@ void copy(Node * src, Node * dest)
 
 Node * saisie_expression()
 {
+    char c;
     char rep[LEN];
     char * exp = NULL;
     Node * node = NULL;
@@ -83,6 +84,7 @@ Node * saisie_expression()
     Node * l = NULL;
 
     printf("Saisissez une expression en notation polonaise inverse :\n");
+    while ((c = getchar()) != '\n' && c != EOF); /* On vide stdin */
     fgets(rep, LEN, stdin);
     exp = strtok(rep, " \t\n");
 
