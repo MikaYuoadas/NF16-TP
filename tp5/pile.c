@@ -67,17 +67,20 @@ int empiler(Node * node, pile * p)
 
 Node * depiler(pile * p)
 {
-    pile * ret;
+    pile * pt;
+    Node * ret;
 
     /* Si la pile est vide on retourne NULL. */
     if (p == NULL || p->next == NULL)
         return NULL;
 
     /* Sinon on enlève la tête et on retourne le node associé. */
-    ret = p->next;
+    pt = p->next;
+    ret = pt->node;
     p->next = p->next->next;
+    free(pt);
 
-    return ret->node;
+    return ret;
 }
 
 /*********************************************************************/
