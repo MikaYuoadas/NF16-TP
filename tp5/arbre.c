@@ -419,7 +419,7 @@ void derivation(Node * node, char v)
                 node->right = create_node("*", gprime, f);
             }
         } else {
-            /* Si le node est une constante, sa dérivé vaut 0,
+            /* Si le node est une constante, sa dérivée vaut 0,
              * Si le node est la variable de dérivation sa dérivé vaut 1.
              */
             node->name = '\0';
