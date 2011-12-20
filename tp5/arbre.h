@@ -10,10 +10,10 @@
  */
 
 typedef struct Node {
-    struct Node * left;     // fils gauche
-    struct Node * right;    // fils droit
-    char name;              // nom de l'opérateur
-    double value;           // valeur de la constante
+    struct Node * left;     /* fils gauche */
+    struct Node * right;    /* fils droit */
+    char name;              /* nom de l'opérateur */
+    double value;           /* valeur de la constante */
 } Node;
 
 

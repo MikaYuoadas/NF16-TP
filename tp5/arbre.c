@@ -130,9 +130,9 @@ void pre_ordre(Node * node)
 {
     if (node != NULL) {
         if (node->name == '\0')
-            printf("%.2f ", node->value); // nombre
+            printf("%.2f ", node->value); /* nombre */
         else
-            printf("%c ", node->name);    // opérateur ou variable
+            printf("%c ", node->name);    /* opérateur ou variable */
         pre_ordre(node->left);
         pre_ordre(node->right);
     }
@@ -145,9 +145,9 @@ void in_ordre(Node * node)
     if (node != NULL) {
         in_ordre(node->left);
         if (node->name == '\0')
-            printf("%.2f ", node->value); // nombre
+            printf("%.2f ", node->value); /* nombre */
         else
-            printf("%c ", node->name);    // opérateur ou variable
+            printf("%c ", node->name);    /* opérateur ou variable */
         in_ordre(node->right);
     }
 }
@@ -160,9 +160,9 @@ void post_ordre(Node * node)
         post_ordre(node->left);
         post_ordre(node->right);
         if (node->name == '\0')
-            printf("%.2f ", node->value); // nombre
+            printf("%.2f ", node->value); /* nombre */
         else
-            printf("%c ", node->name);    // opérateur ou variable
+            printf("%c ", node->name);    /* opérateur ou variable */
     }
 }
 

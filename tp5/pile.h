@@ -10,8 +10,8 @@
  */
 
 typedef struct pile {
-    Node * node;           // pointeur vers un node de la pile
-    struct pile * next;    // le node suivant dans la pile
+    Node * node;           /* pointeur vers un node de la pile */
+    struct pile * next;    /* le node suivant dans la pile */
 } pile;
 
 
