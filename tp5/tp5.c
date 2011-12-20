@@ -93,8 +93,10 @@ int main()
                 printf("Suppression de l'expression numéro : ");
                 scanf("%d", &i);
 
-                if (i < MAX)
+                if (i < MAX) {
                     destroy_all(list[i]);
+                    list[i] = NULL;
+                }
                 break;
 
             /* Réduire la hauteur d'un arbre */
@@ -144,6 +146,10 @@ int main()
                 break;
         }
     } while (choice != 0);
+
+    for (i = 0; i < MAX; i++)
+        if (list[i] != NULL)
+            destroy_all(list[i]);
 
     return 0;
 }
