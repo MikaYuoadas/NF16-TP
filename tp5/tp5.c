@@ -11,7 +11,8 @@ int main()
     char c;
     Node * list[MAX] = {NULL, NULL, NULL, NULL, NULL};
 
-    do {
+    do {    
+    
         printf("\n\n******************** Menu ********************\n\n"
                "0 - Quitter.\n"
                "1 - Saisir une expression.\n"
@@ -20,7 +21,7 @@ int main()
                "4 - Dupliquer un arbre.\n"
                "5 - Détruire un arbre.\n"
                "6 - Réduire la hauteur d'un arbre.\n"
-               "7 - Effectuer tous les calculs possible.\n"
+               "7 - Effectuer tous les calculs possibles.\n"
                "8 - Développer une expression.\n"
                "9 - Dériver une expression.\n"
                "\nChoix : ");
@@ -42,7 +43,7 @@ int main()
                 if (i < MAX)
                     list[i] = saisie_expression();
                 else
-                    printf("Nombre d'expression maximum atteint.");
+                    printf("Nombre maximum d'expressions atteint.");
                 break;
 
             /* Afficher une expression */
@@ -71,6 +72,7 @@ int main()
                     post_ordre(list[i]);
                 } else
                     printf("Expression NULL");
+		break;
 
             /* Dupliquer un arbre */
             case 4 :
@@ -110,7 +112,7 @@ int main()
                     printf("Pas d'expression à réduire.");
                 break;
 
-            /* Effectuer tous les calculs possible */
+            /* Effectuer tous les calculs possibles */
             case 7 :
                 printf("Calcul de l'expression numéro : ");
                 scanf("%d", &i);
@@ -135,9 +137,9 @@ int main()
             /* Dériver une expression */
             case 9 :
                 printf("Dérivation de l'expression numéro : ");
-                scanf("%d", &i);
-                printf("Varible de dérivation : ");
-                scanf("%c", &c);
+				scanf("%d", &i);
+            	printf("Variable de dérivation : ");
+			    scanf("%c", &c);
 
                 if (i < MAX && list[i] != NULL)
                     derivation(list[i], c);
