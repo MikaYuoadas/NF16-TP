@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "arbre.h"
 
 #define MAX 5
+
+
+int getint();
 
 
 int main()
@@ -24,7 +28,7 @@ int main()
                "8 - Développer une expression.\n"
                "9 - Dériver une expression.\n"
                "\nChoix : ");
-        scanf("%d", &choice);
+        choice = getint();
         printf("\n");
 
         switch(choice) {
@@ -60,7 +64,7 @@ int main()
             /* Autres Affichages */
             case 3 :
                 printf("Affichage de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
 
                 if (i < MAX && list[i] != NULL) {
                     printf("\npréfixée : ");
@@ -76,9 +80,9 @@ int main()
             /* Dupliquer un arbre */
             case 4 :
                 printf("Copie de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
                 printf("Dans l'emplacement numéro : ");
-                scanf("%d", &j);
+                j = getint();
 
                 if (i < MAX && j < MAX) {
                     if (list[j] == NULL) {
@@ -93,7 +97,7 @@ int main()
             /* Détruire un arbre */
             case 5 :
                 printf("Suppression de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
 
                 if (i < MAX) {
                     destroy_all(list[i]);
@@ -106,7 +110,7 @@ int main()
             /* Réduire la hauteur d'un arbre */
             case 6 :
                 printf("Réduction de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
 
                 if (i < MAX && list[i] != NULL) {
                     calcul_intermediaire(list[i]);
@@ -118,7 +122,7 @@ int main()
             /* Effectuer tous les calculs possibles */
             case 7 :
                 printf("Calcul de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
 
                 if (i < MAX && list[i] != NULL) {
                     calcul(list[i]);
@@ -130,7 +134,7 @@ int main()
             /* Développer une expression */
             case 8 :
                 printf("Développement de l'expression numéro : ");
-                scanf("%d", &i);
+                i = getint();
 
                 if (i < MAX && list[i] != NULL) {
                     developpement(list[i]);
@@ -142,10 +146,12 @@ int main()
             /* Dériver une expression */
             case 9 :
                 printf("Dérivation de l'expression numéro : ");
-				scanf("%d", &i);
-                while ((c = getchar()) != '\n' && c != EOF);
+                i = getint();
             	printf("Variable de dérivation : ");
-			    scanf("%c", &c);
+			    c = getchar();
+
+                if ((c > 'z' || c < 'a') && (c > 'Z' || c < 'A'))
+                    c = 'x';
 
                 if (i < MAX && list[i] != NULL) {
                     derivation(list[i], c);
@@ -154,6 +160,8 @@ int main()
                            "pour simplifier le résultat)", i, c);
                 } else
                     printf("\nPas d'expression à dériver.");
+
+                while ((c = getchar()) != '\n' && c != EOF);
                 break;
         }
     } while (choice != 0);
@@ -163,4 +171,14 @@ int main()
             destroy_all(list[i]);
 
     return 0;
+}
+
+
+int getint()
+{
+    char rep[11];
+
+    fgets(rep, 11, stdin);
+
+    return atoi(rep);
 }
