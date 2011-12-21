@@ -143,6 +143,7 @@ int main()
             case 9 :
                 printf("Dérivation de l'expression numéro : ");
 				scanf("%d", &i);
+                while ((c = getchar()) != '\n' && c != EOF);
             	printf("Variable de dérivation : ");
 			    scanf("%c", &c);
 
