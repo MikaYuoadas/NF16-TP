@@ -81,12 +81,13 @@ int main()
                 scanf("%d", &j);
 
                 if (i < MAX && j < MAX) {
-                    if (list[j] == NULL)
+                    if (list[j] == NULL) {
+                        printf("\nDuplication de l'arbre %d vers l'emplacement %d.", i, j);
                         list[j] = clone(list[i]);
-                    else
-                        printf("Emplacement de destination n'est pas vide !");
+                    } else
+                        printf("\nEmplacement de destination n'est pas vide !");
                 } else
-                    printf("Indice d'emplacement incorrect !");
+                    printf("\nIndice d'emplacement incorrect !");
                 break;
 
             /* Détruire un arbre */
@@ -97,7 +98,9 @@ int main()
                 if (i < MAX) {
                     destroy_all(list[i]);
                     list[i] = NULL;
-                }
+                    printf("\nExpression %d supprimée.", i);
+                } else
+                    printf("\nIndice d'emplacement incorrect !");
                 break;
 
             /* Réduire la hauteur d'un arbre */
@@ -105,10 +108,11 @@ int main()
                 printf("Réduction de l'expression numéro : ");
                 scanf("%d", &i);
 
-                if (i < MAX && list[i] != NULL)
+                if (i < MAX && list[i] != NULL) {
                     calcul_intermediaire(list[i]);
-                else
-                    printf("Pas d'expression à réduire.");
+                    printf("\nCalcul intermédiaire de l'expression %d effectué", i);
+                } else
+                    printf("\nPas d'expression à réduire.");
                 break;
 
             /* Effectuer tous les calculs possibles */
@@ -116,10 +120,11 @@ int main()
                 printf("Calcul de l'expression numéro : ");
                 scanf("%d", &i);
 
-                if (i < MAX && list[i] != NULL)
+                if (i < MAX && list[i] != NULL) {
                     calcul(list[i]);
-                else
-                    printf("Pas d'expression à calculer.");
+                    printf("\nL'expression %d a été réduite au maximum.", i);
+                } else
+                    printf("\nPas d'expression à calculer.");
                 break;
 
             /* Développer une expression */
@@ -127,10 +132,11 @@ int main()
                 printf("Développement de l'expression numéro : ");
                 scanf("%d", &i);
 
-                if (i < MAX && list[i] != NULL)
+                if (i < MAX && list[i] != NULL) {
                     developpement(list[i]);
-                else
-                    printf("Pas d'expression à développer.");
+                    printf("\nLes produits de l'expression %d ont été développés.", i);
+                } else
+                    printf("\nPas d'expression à développer.");
                 break;
 
             /* Dériver une expression */
@@ -140,10 +146,13 @@ int main()
             	printf("Variable de dérivation : ");
 			    scanf("%c", &c);
 
-                if (i < MAX && list[i] != NULL)
+                if (i < MAX && list[i] != NULL) {
                     derivation(list[i], c);
-                else
-                    printf("Pas d'expression à dériver.");
+                    printf("\nL'expression %d a été dérivé par %c.\n"
+                           "(il est conseillé d'utiliser la fonction calcul "
+                           "pour simplifier le résultat)", i, c);
+                } else
+                    printf("\nPas d'expression à dériver.");
                 break;
         }
     } while (choice != 0);
