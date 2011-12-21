@@ -11,8 +11,7 @@ int main()
     char c;
     Node * list[MAX] = {NULL, NULL, NULL, NULL, NULL};
 
-    do {    
-    
+    do {
         printf("\n\n******************** Menu ********************\n\n"
                "0 - Quitter.\n"
                "1 - Saisir une expression.\n"
