@@ -71,7 +71,7 @@ int main()
                     post_ordre(list[i]);
                 } else
                     printf("Expression NULL");
-		break;
+                break;
 
             /* Dupliquer un arbre */
             case 4 :
