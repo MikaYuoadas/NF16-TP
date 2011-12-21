@@ -424,8 +424,8 @@ void derivation(Node * node, char v)
             /* Si le node est une constante, sa dérivée vaut 0,
              * Si le node est la variable de dérivation sa dérivé vaut 1.
              */
-            node->name = '\0';
             node->value = (node->name == v ? 1 : 0);
+            node->name = '\0';
         }
     }
 }
